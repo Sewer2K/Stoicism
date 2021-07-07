@@ -34,7 +34,7 @@ enum ConfigItemType {
 
 namespace Config {
     inline std::vector<std::string> cfgFiles;
-    inline char configFileName[128] = "gamesneeze.cfg";
+    inline char configFileName[128] = "default";
     inline char cfgDir[256];
 
     class ConfigItem {
@@ -68,28 +68,28 @@ namespace Config {
                 // Default {
                     CONFIGITEM("Legit>LegitBot>Default>Key", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Always on", false),
-                    CONFIGITEM("Legit>LegitBot>Default>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Default>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Default>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Recoil Compensation", false),
                     CONFIGITEM("Legit>LegitBot>Default>Aim While Blind", false),
                 //}
                 // Pistol {
-                    CONFIGITEM("Legit>LegitBot>Pistol>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Pistol>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Override", false),
                     CONFIGITEM("Legit>LegitBot>Pistol>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Aim While Blind", false),
                 //}
                 // Heavy Pistol {
-                    CONFIGITEM("Legit>LegitBot>Heavy Pistol>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Heavy Pistol>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Override", false),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Aim While Blind", false),
                 //}
                 // Rifle {
-                    CONFIGITEM("Legit>LegitBot>Rifle>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Rifle>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Rifle>Override", false),
                     CONFIGITEM("Legit>LegitBot>Rifle>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Rifle>Smoothing", 0),
@@ -97,7 +97,7 @@ namespace Config {
                     CONFIGITEM("Legit>LegitBot>Rifle>Aim While Blind", false),
                 //}
                 // SMG {
-                    CONFIGITEM("Legit>LegitBot>SMG>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>SMG>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>SMG>Override", false),
                     CONFIGITEM("Legit>LegitBot>SMG>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>SMG>Smoothing", 0),
@@ -105,21 +105,21 @@ namespace Config {
                     CONFIGITEM("Legit>LegitBot>SMG>Aim While Blind", false),
                 //}
                 // Scout {
-                    CONFIGITEM("Legit>LegitBot>Scout>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Scout>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Override", false),
                     CONFIGITEM("Legit>LegitBot>Scout>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Aim While Blind", false),
                 //}
                 // AWP {
-                    CONFIGITEM("Legit>LegitBot>AWP>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>AWP>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Override", false),
                     CONFIGITEM("Legit>LegitBot>AWP>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Aim While Blind", false),
                 //}
                 // Heavy {
-                    CONFIGITEM("Legit>LegitBot>Heavy>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Heavy>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy>Override", false),
                     CONFIGITEM("Legit>LegitBot>Heavy>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy>Smoothing", 0),
@@ -143,12 +143,13 @@ namespace Config {
         // }
         // RageBot {
             // Default {
-                CONFIGITEM("Rage>Enabled", false),
+                CONFIGITEM("Rage>RageBot>Enabled", false),
                 CONFIGITEM("Rage>RageBot>Default>Resolver", false),
                 CONFIGITEM("Rage>RageBot>Default>FOV", 0),
                 CONFIGITEM("Rage>RageBot>Default>ForceBaim", false),
                 CONFIGITEM("Rage>RageBot>Default>ForceBaimValue", 0),
 
+                CONFIGITEM("Rage>AntiAim>Enabled", false),
                 CONFIGITEM("Rage>AntiAim>Type", 0),
                 CONFIGITEM("Rage>AntiAim>Pitch", 89),
                 CONFIGITEM("Rage>AntiAim>Offset", 180),
@@ -191,88 +192,66 @@ namespace Config {
         // }
         // Visuals {
             // ESP {
-                CONFIGITEM("Visuals>Players>Enemies>Box", false),
-                CONFIGITEM("Visuals>Players>Enemies>Box Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Skeleton", false),
-                CONFIGITEM("Visuals>Players>Enemies>Skeleton Color", ImColor(255, 255, 255, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Name", false),
-                CONFIGITEM("Visuals>Players>Enemies>Health", false),
-                CONFIGITEM("Visuals>Players>Enemies>Health Bar Color", ImColor(0, 240, 0, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Health Bar", false),
-                CONFIGITEM("Visuals>Players>Enemies>Dynamic Color", false),
-                CONFIGITEM("Visuals>Players>Enemies>Money", false),
-                CONFIGITEM("Visuals>Players>Enemies>Armor", false),
-                CONFIGITEM("Visuals>Players>Enemies>Flashed", false),
-                CONFIGITEM("Visuals>Players>Enemies>Weapon", false),
-                CONFIGITEM("Visuals>Players>Enemies>Radar", false),
-                CONFIGITEM("Visuals>Players>Enemies>Forwardtrack Dots", false),
-                CONFIGITEM("Visuals>Players>Enemies>Vis Check", false),
-                CONFIGITEM("Visuals>Players>Enemies>Only When Dead", false),
-
-                CONFIGITEM("Visuals>Players>Teammates>Box", false),
-                CONFIGITEM("Visuals>Players>Teammates>Box Color", ImColor(10, 161, 32, 255)),
-                CONFIGITEM("Visuals>Players>Teammates>Skeleton", false),
-                CONFIGITEM("Visuals>Players>Teammates>Skeleton Color", ImColor(255, 255, 255, 255)),
-                CONFIGITEM("Visuals>Players>Teammates>Name", false),
-                CONFIGITEM("Visuals>Players>Teammates>Health", false),
-                CONFIGITEM("Visuals>Players>Teammates>Health Bar Color", ImColor(0, 240, 0, 255)),
-                CONFIGITEM("Visuals>Players>Teammates>Health Bar", false),
-                CONFIGITEM("Visuals>Players>Teammates>Dynamic Color", false),
-                CONFIGITEM("Visuals>Players>Teammates>Money", false),
-                CONFIGITEM("Visuals>Players>Teammates>Armor", false),
-                CONFIGITEM("Visuals>Players>Teammates>Weapon", false),
-                CONFIGITEM("Visuals>Players>Teammates>Only When Dead", false),
+                CONFIGITEM("Visuals>Players>Teammates", false),
+                CONFIGITEM("Visuals>Players>Box", false),
+                CONFIGITEM("Visuals>Players>Box Color", ImColor(255, 255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Skeleton", false),
+                CONFIGITEM("Visuals>Players>Skeleton Color", ImColor(255, 255, 225, 255)),
+                CONFIGITEM("Visuals>Players>Name", false),
+                CONFIGITEM("Visuals>Players>Health", false),
+                CONFIGITEM("Visuals>Players>Health Bar Color", ImColor(0, 255, 0, 255)),
+                CONFIGITEM("Visuals>Players>Health Bar", false),
+                CONFIGITEM("Visuals>Players>Dynamic Color", false),
+                CONFIGITEM("Visuals>Players>Money", false),
+                CONFIGITEM("Visuals>Players>Armor", false),
+                CONFIGITEM("Visuals>Players>Flashed", false),
+                CONFIGITEM("Visuals>Players>Weapon", false),
+                CONFIGITEM("Visuals>Players>Radar", false),
+                CONFIGITEM("Visuals>Players>Forwardtrack Dots", false),
+                CONFIGITEM("Visuals>Players>Vis Check", false),
+                CONFIGITEM("Visuals>Players>Only When Dead", false),
             // }
             // Chams {
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Material", 0),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Wireframe", false),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Overlay Material", 0),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Overlay Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Visible Overlay Wireframe", false),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Occluded Material", 0),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Occluded Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Backtrack Material", 0),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Backtrack Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Enemies>Chams>Trail", false),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Visible Color", ImColor(165, 220, 90)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Occluded Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Occluded Color", ImColor(80, 130, 170)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Overlay Color", ImColor(240, 190, 30)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Material", 0),
 
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Material", 0),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Wireframe", false),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Overlay Material", 0),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Overlay Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Visible Overlay Wireframe", false),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Occluded Material", 0),
-                CONFIGITEM("Visuals>Players>Teammates>Chams>Occluded Color", ImColor(197, 66, 245, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Visible Color", ImColor(60, 60, 60)),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Occluded Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Occluded Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Overlay Color", ImColor(20, 50, 60)),
+                CONFIGITEM("Visuals>Players>Chams>Teammates>Material", 0),
 
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Wireframe", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Overlay Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Overlay Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Weapon Overlay Wireframe", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Wireframe", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Overlay Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Overlay Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Arms Overlay Wireframe", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Wireframe", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Overlay Material", 0),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Overlay Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Sleeve Overlay Wireframe", false),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Color", ImColor(0, 0, 0)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Overlay Color", ImColor(20, 50, 60)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Material", 0),
 
-                CONFIGITEM("Visuals>Players>LocalPlayer>No Aim Punch", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>No View Punch", false),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Color", ImColor(60, 20, 110)),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Overlay Color", ImColor(240, 190, 30)),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Material", 0),
+
+                CONFIGITEM("Visuals>Players>Chams>Arms Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Arms Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Arms Overlay Color", ImColor(20, 50, 60)),
+                CONFIGITEM("Visuals>Players>Chams>Arms Material", 0),
+
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Enabled", false),
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Overlay Color", ImColor(20, 50, 60)),
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Material", 0),
             // }
             // World {
                 CONFIGITEM("Visuals>Players>LocalPlayer>Spread Crosshair", false),
                 CONFIGITEM("Visuals>Players>LocalPlayer>Recoil Crosshair", false),
                 CONFIGITEM("Visuals>Players>LocalPlayer>Recoil Crosshair>Only When Shooting", false),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Crosshair Color", ImColor(0, 0, 0, 100)),
-                CONFIGITEM("Visuals>Players>LocalPlayer>Crosshair Border Color", ImColor(200, 200, 200, 100)),
+                CONFIGITEM("Visuals>Players>LocalPlayer>Crosshair Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>LocalPlayer>Crosshair Border Color", ImColor(0, 0, 0)),
 
                 CONFIGITEM("Visuals>World>World>World Color Modulation", ImColor(255, 255, 255, 255)),
                 CONFIGITEM("Visuals>World>World>SkyBox Color Modulation", ImColor(255, 255, 255, 255)),
@@ -281,10 +260,15 @@ namespace Config {
                 CONFIGITEM("Visuals>World>World>FOV", 90),
                 CONFIGITEM("Visuals>World>World>Viewmodel FOV", 0),
                 CONFIGITEM("Visuals>World>World>Third Person", false),
+                CONFIGITEM("Visuals>World>World>Third Person Distance", 100),
+                CONFIGITEM("Visuals>World>World>Third Person Key", 0),
                 CONFIGITEM("Visuals>World>World>No Flash", false),
                 CONFIGITEM("Visuals>World>World>Bullet Tracers", false),
                 CONFIGITEM("Visuals>World>World>Bullet Tracers Laser", false),
                 CONFIGITEM("Visuals>World>World>Bullet Tracers Color", ImColor(255, 255, 255, 255)),
+                CONFIGITEM("Visuals>World>World>Head Height", false),
+                CONFIGITEM("Visuals>World>World>Head Height Key", 0),
+                CONFIGITEM("Visuals>World>World>Head Height Color", ImColor(255, 255, 255, 255)),
 
                 CONFIGITEM("Visuals>World>World>Override Fog", false),
                 CONFIGITEM("Visuals>World>World>Fog Start", 0),
@@ -316,6 +300,12 @@ namespace Config {
 
                 CONFIGITEM("Visuals>World>Items>ESP Quite literally everything", false),
 
+                CONFIGITEM("Visuals>World>Removals>Smoke", 0),
+                CONFIGITEM("Visuals>World>Removals>No Panorama Blur", false),
+                CONFIGITEM("Visuals>World>Removals>No Aim Punch", false),
+                CONFIGITEM("Visuals>World>Removals>No View Punch", false),
+                CONFIGITEM("Visuals>World>Removals>Disable Post Processing", false),
+
                 CONFIGITEM("Visuals>World>World>Ragdoll Gravity", false),
             // }
         // }
@@ -325,9 +315,16 @@ namespace Config {
             CONFIGITEM("Misc>Misc>Movement>Bhop Hitchance", 100),
             CONFIGITEM("Misc>Misc>Movement>Bhop Max Misses", 0),
             CONFIGITEM("Misc>Misc>Movement>Bhop Max Hops Hit", 0),
+            CONFIGITEM("Misc>Misc>Movement>Auto Strafe", false),
             CONFIGITEM("Misc>Misc>Movement>Edge Jump", false),
             CONFIGITEM("Misc>Misc>Movement>Edge Jump Key", 0),
+            CONFIGITEM("Misc>Misc>Movement>Jump Bug", false),
+            CONFIGITEM("Misc>Misc>Movement>Jump Bug Key", 0),
+            CONFIGITEM("Misc>Misc>Movement>Edge Bug", false),
+            CONFIGITEM("Misc>Misc>Movement>Edge Bug Key", 0),
             CONFIGITEM("Misc>Misc>Movement>Fast Duck", false),
+            CONFIGITEM("Misc>Misc>Movement>Jump Shot", false),
+            CONFIGITEM("Misc>Misc>Movement>Jump Shot Key", 0),
 
             CONFIGITEM("Misc>Misc>Hitmarkers>Hitlogs", false),
             CONFIGITEM("Misc>Misc>Hitmarkers>Hitmarkers", false),
@@ -337,8 +334,10 @@ namespace Config {
             CONFIGITEM("Misc>Misc>Misc>Disable Watermark", false),
             CONFIGITEM("Misc>Misc>Misc>Force square radar", false),
             CONFIGITEM("Misc>Misc>Misc>Rank Revealer", false),
+            CONFIGITEM("Misc>Misc>Clantag>Clantag text", 0),
             CONFIGITEM("Misc>Misc>Clantag>Clantag", false),
             CONFIGITEM("Misc>Misc>Clantag>Clantag Marquee", false),
+            CONFIGITEM("Misc>Misc>Clantag>Reverse", false),
             CONFIGITEM("Misc>Misc>Clantag>Bee Movie Clantag", false),
             CONFIGITEM("Misc>Misc>Misc>Spectators", false),
             CONFIGITEM("Misc>Misc>Misc>Player List", false),
@@ -351,7 +350,7 @@ namespace Config {
             CONFIGITEM("Misc>Misc>Misc>Use Spam", false),
             CONFIGITEM("Misc>Misc>Misc>Use Spam Key", 0),
             CONFIGITEM("Misc>Misc>Misc>Disable Setting Cvars", false),
-            CONFIGITEM("Misc>Misc>Misc>Disable Post Processing", false),
+            CONFIGITEM("Misc>Misc>Misc>Menu Color", ImColor(168, 186, 60)),
 
             CONFIGITEM("Misc>Skins>Skins>PaintKit", 0),
             CONFIGITEM("Misc>Skins>Skins>Wear", 0),
@@ -365,7 +364,7 @@ namespace Config {
         Config::cfgFiles.clear();
         char path[128];
         strcpy(path, getenv("HOME"));
-        strcat(path, "/.gamesneeze");
+        strcat(path, "/.config/x352");
         if (!std::filesystem::is_directory(path)) {
             std::filesystem::create_directory(path);
         }
@@ -447,6 +446,7 @@ namespace Config {
                 Log::log(ERR, "Failed to load config item %s, probably due to an out of date config, just redo the selected item and save again.", name);
             }
         }
+        ImGui::GetStyle().Colors[ImGuiCol_MenuCol] = CONFIGCOL("Misc>Misc>Misc>Menu Color");
     }
 
     inline void remove() {
@@ -460,9 +460,13 @@ namespace Config {
         }
     }
 
+    inline void reset() {
+        // This does nothing yet
+    }
+
     inline void init() {
         strcpy(cfgDir, getenv("HOME"));
-        strcat(cfgDir, "/.gamesneeze/configs/");
+        strcat(cfgDir, "/.config/x352/configs/");
         reloadCfgList();
         if (cfgFiles.size() == 1) {
             strcpy(configFileName, cfgFiles[0].c_str());

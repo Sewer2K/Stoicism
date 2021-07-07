@@ -10,14 +10,15 @@ void Hooks::FrameStageNotify::hook(void* thisptr, FrameStage frame) {
     Features::NoFlash::frameStageNotify(frame);
     Features::RagdollGravity::frameStageNotify(frame);
     Features::NoVisualRecoil::frameStageNotify(frame);
+    Features::ESP::frameStageNotify(frame);
 
     if (frame == FRAME_RENDER_START) {
         cachePlayers();
         if (Globals::localPlayer && Globals::localPlayer->health() > 0 && Interfaces::input->m_fCameraInThirdPerson) {
             QAngle viewAngles;
             Interfaces::engine->GetViewAngles(viewAngles);
-            Globals::localPlayer->viewAngles()->y = CONFIGBOOL("Rage>Enabled") ? Features::AntiAim::fakeYaw : viewAngles.y;
-            Globals::localPlayer->viewAngles()->x = CONFIGBOOL("Rage>Enabled") ? CONFIGINT("Rage>AntiAim>Pitch") : viewAngles.x;
+            Globals::localPlayer->viewAngles()->y = CONFIGBOOL("Rage>AntiAim>Enabled") ? Features::AntiAim::fakeYaw : viewAngles.y;
+            Globals::localPlayer->viewAngles()->x = CONFIGBOOL("Rage>AntiAim>Enabled") ? CONFIGINT("Rage>AntiAim>Pitch") : viewAngles.x;
         }
     }
 

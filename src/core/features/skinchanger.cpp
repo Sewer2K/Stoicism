@@ -8,7 +8,7 @@ void Features::SkinChanger::frameStageNotify(FrameStage frame) {
         try {
             if (weapon && weapon->itemIndex() != ItemIndex::INVALID) {
                 const char* weaponName = itemIndexMap.at(weapon->itemIndex());
-                
+
                 char buf[256];
                 snprintf(buf, 256, "Misc>Skins>Skins>%s>PaintKit", weaponName);
 
@@ -26,7 +26,8 @@ void Features::SkinChanger::frameStageNotify(FrameStage frame) {
                 Interfaces::engine->GetPlayerInfo(Interfaces::engine->GetLocalPlayer(), &info);
                 *weapon->accountID_ptr() = info.xuid;
                 *weapon->itemIDHigh_ptr() = -1;
-                *weapon->paintKit_ptr() = paintkit;
+                if (paintkit != 0)
+                    *weapon->paintKit_ptr() = paintkit;
                 *weapon->wear_ptr() = wear;
                 *weapon->statTrack_ptr() = statTrack;
             }

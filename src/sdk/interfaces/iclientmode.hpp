@@ -73,4 +73,13 @@ struct ViewSetup {
 	bool m_bRenderFlashlightDepthTranslucents : 1;
 };
 
+/*class HudChat {
+public:
+    template <typename... Args>
+    void printf(int filter, const char* fmt, Args... args) noexcept
+    {
+        (*reinterpret_cast<void(__CDECL***)(void*, int, const char*, ...)>(this))[29](this, filter, fmt, args...);
+    }
+};*/
+
 class IClientMode {};

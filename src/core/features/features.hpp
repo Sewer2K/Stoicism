@@ -9,6 +9,7 @@ namespace Features {
     }
     namespace ESP {
         void draw();
+        void frameStageNotify(FrameStage frame);
     }
     namespace Chams {
         void drawModelExecute(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
@@ -16,9 +17,6 @@ namespace Features {
     namespace AutoDefuse {
         inline bool shouldDefuse = false;
         void onBombRender(PlantedC4* bomb);
-    }
-    namespace Nightmode {
-        void onTonemapController(TonemapController* tonemapController);
     }
     namespace RankReveal {
         void createMove(CUserCmd* cmd);
@@ -131,8 +129,14 @@ namespace Features {
     namespace BulletTracers {
         void event(IGameEvent* event);
     }
-    namespace EdgeJump {
-        void prePredCreateMove(CUserCmd* cmd);
-        void postPredCreateMove(CUserCmd* cmd);
+    namespace Movement {
+        inline int storedFlags;
+        inline float storedVel;
+        void storeFlags(CUserCmd* cmd);
+        void autoStrafe(CUserCmd* cmd);
+        void edgeBug(CUserCmd* cmd);
+        void edgeJump(CUserCmd* cmd);
+        void jumpBug(CUserCmd* cmd);
+        void jumpShot(CUserCmd* cmd);
     }
 }

@@ -1,8 +1,7 @@
 #include "features.hpp"
 #include "../../includes.hpp"
+#include <array>
 #include <sstream>
-
-
 
 static bool getBox(Entity* entity, int& x, int& y, int& x2, int& y2) {
 	Vector vOrigin, min, max;
@@ -125,76 +124,49 @@ void drawPlayer(Player* p) {
                 player_info_t info;
                 Interfaces::engine->GetPlayerInfo(p->index(), &info);
 
-                if (p->isEnemy()) {
-                    
-                    if (CONFIGBOOL("Visuals>Players>Enemies>Vis Check") ? (Globals::localPlayer->health() > 0 ? p->visible() : true) : true) {
-                        if (CONFIGBOOL("Visuals>Players>Enemies>Only When Dead") ? (Globals::localPlayer->health() == 0) : true) {
-                            std::stringstream rightText;
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Health"))
-                                rightText << p->health() << "hp\n";
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Money"))
-                                rightText << "$" << p->money() << "\n";
+                // NOTE: If you're reading this, I'm currently fixing this code
+                //if (!p->isEnemy() && !CONFIGBOOL("Visuals>Players>Teammates"))
+                    //return;
 
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Armor"))
-                                rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Flashed") && p->flashDuration() > 3) //This value is quite strange
-                                rightText << "Flashed\n"; // TODO: Fully refactor
+                if (!p->isEnemy())
+                    return;
 
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Weapon")) {
-                                Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
-                                if (weapon) {
-                                    try {
-                                        rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
-                                    }
-                                    catch(const std::exception & e) {
-                                        //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
-                                    }
+                if (CONFIGBOOL("Visuals>Players>Vis Check") ? (Globals::localPlayer->health() > 0 ? p->visible() : true) : true) {
+                    if (CONFIGBOOL("Visuals>Players>Only When Dead") ? (Globals::localPlayer->health() == 0) : true) {
+                        std::stringstream rightText;
+                        if (CONFIGBOOL("Visuals>Players>Health"))
+                            rightText << p->health() << "hp\n";
+                        if (CONFIGBOOL("Visuals>Players>Money"))
+                            rightText << "$" << p->money() << "\n";
+
+                        if (CONFIGBOOL("Visuals>Players>Armor"))
+                            rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
+                        if (CONFIGBOOL("Visuals>Players>Flashed") && p->flashDuration() > 3) //This value is quite strange
+                            rightText << "Flashed\n"; // TODO: Fully refactor
+
+                        if (CONFIGBOOL("Visuals>Players>Weapon")) {
+                            Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
+                            if (weapon) {
+                                try {
+                                    rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
+                                }
+                                catch(const std::exception & e) {
+                                    //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
                                 }
                             }
-                            
-                            drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Enemies>Box"), 
-                                        CONFIGCOL("Visuals>Players>Enemies>Box Color"), CONFIGBOOL("Visuals>Players>Enemies>Name") ? info.name : (char*)"", 
-                                        (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Enemies>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Enemies>Dynamic Color"), 
-                                        CONFIGCOL("Visuals>Players>Enemies>Health Bar Color"));
-                            
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Skeleton"))
-                                drawSkeleton(p, CONFIGCOL("Visuals>Players>Enemies>Skeleton Color"));
-
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Forwardtrack Dots"))
-                                drawForwardTrack(p);
                         }
+
+                        drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Box"),
+                                    CONFIGCOL("Visuals>Players>Box Color"), CONFIGBOOL("Visuals>Players>Name") ? info.name : (char*)"",
+                                    (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Dynamic Color"),
+                                    CONFIGCOL("Visuals>Players>Health Bar Color"));
+
+                        if (CONFIGBOOL("Visuals>Players>Skeleton"))
+                            drawSkeleton(p, CONFIGCOL("Visuals>Players>Skeleton Color"));
+
+                        if (CONFIGBOOL("Visuals>Players>Forwardtrack Dots"))
+                            drawForwardTrack(p);
                     }
-                }
-                else if (!p->isEnemy() && 
-                        ((Globals::localPlayer->health() == 0 && CONFIGBOOL("Visuals>Players>Teammates>Only When Dead")) || !CONFIGBOOL("Visuals>Players>Teammates>Only When Dead"))) {
-                    std::stringstream rightText;
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Health"))
-                        rightText << p->health() << "hp\n";
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Money"))
-                        rightText << "$" << p->money() << "\n";
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Armor"))
-                        rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Weapon")) {
-                        Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
-                        if (weapon) {
-                            try {
-                                rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
-                            }
-                            catch(const std::exception & e) {
-                                //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
-                            }
-                        }
-                    }
-                    
-                    drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Teammates>Box"), 
-                                CONFIGCOL("Visuals>Players>Teammates>Box Color"), CONFIGBOOL("Visuals>Players>Teammates>Name") ? info.name : (char*)"", 
-                                (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Teammates>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Teammates>Dynamic Color"), 
-                                CONFIGCOL("Visuals>Players>Teammates>Health Bar Color"));
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Skeleton"))
-                        drawSkeleton(p, CONFIGCOL("Visuals>Players>Teammates>Skeleton Color"));
                 }
             }
         }
@@ -208,10 +180,69 @@ void drawGenericEnt(Entity* ent, bool box, ImColor color, const char* label) {
     }
 }
 
+// TODO: Clean this shit up after you're done
+void drawHeadHeight(ImColor color) {
+    if (!CONFIGBOOL("Visuals>World>World>Head Height"))
+        return;
+
+    Vector floor;
+    Vector headPos;
+    Vector headLeft, headRight;
+    Vector chestLeft, chestRight;
+    if (Menu::CustomWidgets::isKeyDown(CONFIGINT("Visuals>World>World>Head Height Key"))) {
+        Trace trace;
+        Ray ray;
+        TraceFilterWorldAndPropsOnly filter;
+
+        Vector startPos, endPos, forward;
+        angleVectors(Globals::viewAngles, forward);
+
+        startPos = Globals::localPlayer->eyePos();
+        endPos = startPos + (forward * 8192);
+
+        ray.Init(startPos, endPos);
+        Interfaces::trace->TraceRay(ray, MASK_ALL, &filter, &trace);
+
+        Trace tr;
+        Ray r;
+        Vector start, end;
+
+        start = trace.endpos;
+        end = start - Vector(0, 0, 8192);
+
+        r.Init(start, end);
+        Interfaces::trace->TraceRay(r, MASK_ALL, &filter, &tr);
+
+
+        floor = tr.endpos;
+        headPos = floor + Vector(0, 0, 64);
+        headLeft = headPos - Vector(0, 20, 0);
+        headRight = headPos + Vector(0, 20, 0);
+        chestLeft = headLeft + Vector(0, 10, -24);
+        chestRight = headRight + Vector(0, -10, -24);
+    }
+
+    // TODO: What the hell is this.
+    Vector scrFloor, scrHead;
+    Vector scrHeadLeft, scrHeadRight;
+    Vector scrChestLeft, scrChestRight;
+    if (worldToScreen(floor, scrFloor) &&
+        worldToScreen(headPos, scrHead) &&
+        worldToScreen(headLeft, scrHeadLeft) &&
+        worldToScreen(headRight, scrHeadRight) &&
+        worldToScreen(chestLeft, scrChestLeft) &&
+        worldToScreen(chestRight, scrChestRight)) {
+        Globals::drawList->AddLine(ImVec2(scrFloor.x, scrFloor.y), ImVec2(scrHead.x, scrHead.y), color);
+        Globals::drawList->AddLine(ImVec2(scrHeadLeft.x, scrHeadLeft.y), ImVec2(scrHeadRight.x, scrHeadRight.y), color);
+        Globals::drawList->AddLine(ImVec2(scrChestLeft.x, scrChestLeft.y), ImVec2(scrChestRight.x, scrChestRight.y), color);
+    }
+}
+
 void Features::ESP::draw() {
-    if (Interfaces::engine->IsInGame()) {
-        for (auto i : entityDistanceMap) {
-            if (Globals::localPlayer) {
+    if (Interfaces::engine->IsInGame() && Interfaces::engine->IsConnected()) {
+        if (Globals::localPlayer) {
+            drawHeadHeight(CONFIGCOL("Visuals>World>World>Head Height Color"));
+            for (auto i : entityDistanceMap) {
                 if (i.second != Interfaces::engine->GetLocalPlayer()) {
                     Entity* ent = (Entity*)Interfaces::entityList->GetClientEntity(i.second);
                     if (ent) {
@@ -279,14 +310,10 @@ void Features::ESP::draw() {
                             float bombTime = ((PlantedC4*)ent)->time() - Interfaces::globals->curtime;
                             if (bombTime >= 0.f) {
                                 char label[32] = "";
-                                snprintf(label, 32, "Planted C4\n%.3f", bombTime);
+                                snprintf(label, 32, "Planted C4\n%.1f", bombTime);
                                 drawGenericEnt(ent, CONFIGBOOL("Visuals>World>Items>Planted C4 Box"), CONFIGCOL("Visuals>World>Items>Planted C4 Box Color"), CONFIGBOOL("Visuals>World>Items>Planted C4 Label") ? label : "");
                                 AutoDefuse::onBombRender((PlantedC4*)ent);
                             }
-                        }
-                        
-                        else if (clientClass->m_ClassID == EClassIds::CEnvTonemapController) {
-                            Nightmode::onTonemapController((TonemapController*)ent);
                         }
 
                         /* Chicken ESP */
@@ -315,6 +342,29 @@ void Features::ESP::draw() {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+void Features::ESP::frameStageNotify(FrameStage frame) {
+    if (frame == FRAME_RENDER_START || frame == FRAME_RENDER_END) {
+
+    static auto blur = Interfaces::convar->FindVar("@panorama_disable_blur");
+    blur->SetValue(CONFIGBOOL("Visuals>World>Removals>No Panorama Blur"));
+
+        if (frame == FRAME_RENDER_END) {
+            constexpr std::array smokeMaterials {
+                "particle/vistasmokev1/vistasmokev1_emods",
+                "particle/vistasmokev1/vistasmokev1_emods_impactdust",
+                "particle/vistasmokev1/vistasmokev1_fire",
+                "particle/vistasmokev1/vistasmokev1_smokegrenade"
+            };
+
+            for (const auto mat : smokeMaterials) {
+                const auto material = Interfaces::materialSystem->FindMaterial(mat, nullptr);
+                material->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, CONFIGINT("Visuals>World>Removals>Smoke") == 1);
+                material->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, CONFIGINT("Visuals>World>Removals>Smoke") == 2);
             }
         }
     }

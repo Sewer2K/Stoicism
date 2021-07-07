@@ -15,7 +15,7 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
         if (Interfaces::engine->IsInGame()) {
             static ConVar* mat_postprocess_enable = Interfaces::convar->FindVar("mat_postprocess_enable");
             if (mat_postprocess_enable) {
-                mat_postprocess_enable->SetValue(!CONFIGBOOL("Misc>Misc>Misc>Disable Post Processing"));
+                mat_postprocess_enable->SetValue(!CONFIGBOOL("Visuals>World>Removals>Disable Post Processing"));
             }
         }
 
@@ -24,12 +24,43 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
             Features::AutoHop::createMove(cmd);
             Features::FastDuck::createMove(cmd);
             Features::UseSpam::createMove(cmd);
-            Features::EdgeJump::prePredCreateMove(cmd);
+            Features::Movement::storeFlags(cmd);
+
+            /*int stage = 0;
+            float oldVel = 0.f;
+            float cooldown = 0.f;
+            int numEB = 0;
+            int numConsecEB = 0;
+            Vector vel = Globals::localPlayer->velocity();
+            float hVel = fabsf(vel.x + vel.y);
+
+            if (!(Globals::localPlayer->flags() & FL_ONGROUND)) {
+                stage = 1;
+                if (vel.z < 1.f && oldVel < vel.z) {
+                    stage = 2;
+                    if (hVel > 10.f) {
+                        stage = 3;
+                        if (Interfaces::globals->curtime > cooldown) {
+                            stage = 4;
+                            cooldown = Interfaces::globals->curtime + 0.5f;
+                            numEB += 1;
+                            Globals::didEb = true;
+                        }
+                    }
+                }
+            } else {
+                // Reset counter for consecutive EB
+                numConsecEB = 0;
+            }
+
+            oldVel = vel.z;*/
 
             Features::Prediction::start(cmd);
-                if (CONFIGBOOL("Rage>Enabled")) {
-                    Features::RageBot::createMove(cmd);
-                    Features::AntiAim::createMove(cmd);
+                if (CONFIGBOOL("Rage>RageBot>Enabled") || CONFIGBOOL("Rage>AntiAim>Enabled")) {
+                    if (CONFIGBOOL("Rage>RageBot>Enabled"))
+                        Features::RageBot::createMove(cmd);
+                    if (CONFIGBOOL("Rage>AntiAim>Enabled"))
+                        Features::AntiAim::createMove(cmd);
                 }
                 else {
                     Features::LegitBot::createMove(cmd);
@@ -38,9 +69,12 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
                     Features::Backtrack::createMove(cmd);
                     Features::Forwardtrack::createMove(cmd);
                 }
+                Features::Movement::jumpBug(cmd);
+                Features::Movement::edgeBug(cmd);
+                Features::Movement::edgeJump(cmd);
+                Features::Movement::jumpShot(cmd);
+                Globals::viewAngles = cmd->viewangles;
             Features::Prediction::end();
-
-            Features::EdgeJump::postPredCreateMove(cmd);
 
             if (Features::AutoDefuse::shouldDefuse) {
                 cmd->buttons |= (1 << 5);
@@ -57,5 +91,5 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
         cmd->viewangles.z = 0.0f;
     }
 
-    return !(CONFIGBOOL("Rage>Enabled")); // return false when we want to do silent angles for rb
+    return !(CONFIGBOOL("Rage>RageBot>Enabled")); // return false when we want to do silent angles for rb
 }

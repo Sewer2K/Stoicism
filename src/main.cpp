@@ -2,40 +2,32 @@
 #include "includes.hpp"
 #include <unistd.h>
 
-/* initialise everything in */
+/* initialize everything in */
 void MainThread() {
     /* if serverbrowser is not open then wait, (serverbrowser is last to be loaded) */
     while (!dlopen("./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW))
         usleep(500*1000);
     try {
-        puts(" \n\
-Powered by...\n\
-   __ _  __ _ _ __ ___   ___ \e[32m ___ _ __   ___  ___ _______ \e[0m \n\
-  / _` |/ _` | '_ ` _ \\ / _ \\\e[32m/ __| '_ \\ / _ \\/ _ \\_  / _ \\\e[0m \n\
- | (_| | (_| | | | | | |  __/\e[32m\\__ \\ | | |  __/  __// /  __/\e[0m \n\
-  \\__, |\\__,_|_| |_| |_|\\___|\e[32m|___/_| |_|\\___|\\___/___\\___|\e[0m \n\
-  |___/ \n\
-===========================================================");
-        Log::log(LOG, "Initialising...");
+        Log::log(LOG, "Initializing...");
 
         Config::init();
-        
+
         /* Initialise interfaces */
         if (!Interfaces::init()) {
-            Log::log(ERR, "Failed to initialise interfaces!");
+            Log::log(ERR, "Failed to initialize interfaces!");
         }
 
         /* Initialise netvars/offsets */
         if (!Netvar::init()) {
-            Log::log(ERR, "Failed to initialise netvars!");
+            Log::log(ERR, "Failed to initialize netvars!");
         }
 
         /* Initialise hooks */
         if (!Hooks::init()) {
-            Log::log(ERR, "Failed to initialise hooks!");
+            Log::log(ERR, "Failed to initialize hooks!");
         }
 
-        Features::Notifications::addNotification(ImColor(30, 255, 30), "[gs] Successfully injected!");
+        Features::Notifications::addNotification(ImColor(255, 255, 255), "Successfully injected!");
         Log::log(LOG, "Initialised!");
     }
     catch(const std::exception& e) {
@@ -65,7 +57,7 @@ void __attribute__((destructor)) Unload() {
 /* Called when injected */
 int __attribute__((constructor)) Main() {
 	std::thread mainThread(MainThread);
-    
+
 	mainThread.detach();
     return 0;
 }

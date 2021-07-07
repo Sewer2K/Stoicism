@@ -2715,6 +2715,19 @@ void ImGui::RenderFrame(ImVec2 p_min, ImVec2 p_max, ImU32 fill_col, bool border,
     }
 }
 
+void ImGui::RenderFrameGradient(ImVec2 p_min, ImVec2 p_max, ImU32 tl, ImU32 tr, ImU32 br, ImU32 bl, bool border, float rounding)
+{
+    ImGuiContext& g = *GImGui;
+    ImGuiWindow* window = g.CurrentWindow;
+    window->DrawList->AddRectFilledMultiColor(p_min, p_max, tl, tr, br, bl);
+    const float border_size = g.Style.FrameBorderSize;
+    if (border && border_size > 0.0f)
+    {
+        window->DrawList->AddRect(p_min + ImVec2(1, 1), p_max + ImVec2(1, 1), GetColorU32(ImGuiCol_BorderShadow), rounding, ImDrawCornerFlags_All, border_size);
+        window->DrawList->AddRect(p_min, p_max, GetColorU32(ImGuiCol_Border), rounding, ImDrawCornerFlags_All, border_size);
+    }
+}
+
 void ImGui::RenderFrameBorder(ImVec2 p_min, ImVec2 p_max, float rounding)
 {
     ImGuiContext& g = *GImGui;
@@ -5877,6 +5890,16 @@ bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
         window->ScrollTarget = ImVec2(FLT_MAX, FLT_MAX);
 
         // DRAWING
+
+        // TODO: How can we draw this around only the main window?
+        /*if (!window->ParentWindow) {
+            window->DrawList->AddRect(window->Pos - ImVec2(1, 1), window->Pos + window->Size + ImVec2(1, 1), ImColor(0.28f, 0.28f, 0.28f, 1.f));
+            window->DrawList->AddRect(window->Pos - ImVec2(2, 2), window->Pos + window->Size + ImVec2(2, 2), ImColor(0.18f, 0.18f, 0.18f, 1.f));
+            window->DrawList->AddRect(window->Pos - ImVec2(3, 3), window->Pos + window->Size + ImVec2(3, 3), ImColor(0.18f, 0.18f, 0.18f, 1.f));
+            window->DrawList->AddRect(window->Pos - ImVec2(4, 4), window->Pos + window->Size + ImVec2(4, 4), ImColor(0.18f, 0.18f, 0.18f, 1.f));
+            window->DrawList->AddRect(window->Pos - ImVec2(5, 5), window->Pos + window->Size + ImVec2(5, 5), ImColor(0.28f, 0.28f, 0.28f, 1.f));
+            window->DrawList->AddRect(window->Pos - ImVec2(6, 6), window->Pos + window->Size + ImVec2(6, 6), ImColor(0.f, 0.f, 0.f, 1.f));
+        }*/
 
         // Setup draw list and outer clipping rectangle
         IM_ASSERT(window->DrawList->CmdBuffer.Size == 1 && window->DrawList->CmdBuffer[0].ElemCount == 0);
