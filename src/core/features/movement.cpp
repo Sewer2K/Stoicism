@@ -68,13 +68,38 @@ void Features::Movement::edgeJump(CUserCmd* cmd) {
 void Features::Movement::jumpBug(CUserCmd* cmd) {
     if (CONFIGBOOL("Misc>Misc>Movement>Jump Bug") &&
         Interfaces::inputSystem->IsButtonDown(KEY_SPACE) &&
-        Menu::CustomWidgets::isKeyDown(CONFIGINT("Misc>Misc>Movement>Jump Bug Key")) &&
-        Globals::localPlayer->moveType() != MOVETYPE_LADDER &&
-        Globals::localPlayer->moveType() != MOVETYPE_NOCLIP &&
-        (Globals::localPlayer->flags() & FL_ONGROUND || Globals::localPlayer->flags() & FL_PARTIALGROUND) && // Predicting we are going to hit the ground
-        !(storedFlags & FL_ONGROUND || storedFlags & FL_PARTIALGROUND)) {
-        cmd->buttons |= IN_DUCK;
-        cmd->buttons &= ~IN_JUMP;
+        Menu::CustomWidgets::isKeyDown(CONFIGINT("Misc>Misc>Movement>Jump Bug Key"))) {
+        float max_radias = M_PI * 2;
+		float step = max_radias / 128;
+		float xThick = 23;
+        if (Globals::localPlayer->flags() & FL_ONGROUND) {
+            bool unduck = cmd->buttons &= ~IN_DUCK;
+            if (unduck) {
+                cmd->buttons &= ~IN_DUCK;
+                cmd->buttons |= IN_JUMP;
+                unduck = false;
+            }
+            Vector pos = Globals::localPlayer->origin();
+            std::vector<float> toSubtract = { 0.f, 2.f, 20.f };
+            for (auto i : toSubtract) {
+                for (float a = 0.f; a < max_radias; a += step) {
+                    Trace trace;
+                    Ray ray;
+                    Vector startpos = Vector((xThick - i * cos(a)) + pos.x, (xThick - i * sin(a)) + pos.y, pos.z);
+                    Vector endpos = startpos - Vector(0, 0, 8192);
+                    ray.Init(startpos, endpos);
+                    TraceFilter flt;
+                    flt.pSkip = Globals::localPlayer;
+                    Interfaces::trace->TraceRay(ray, MASK_PLAYERSOLID, &flt, &trace);
+
+                    if (trace.fraction != 1.f && trace.fraction != 0.f) {
+                        cmd->buttons |= IN_DUCK;
+                        cmd->buttons &= ~IN_JUMP;
+                        unduck = true;
+                    }
+                }
+            }
+        }
     }
 }
 
