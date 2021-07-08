@@ -322,6 +322,7 @@ namespace Config {
             CONFIGITEM("Misc>Misc>Movement>Jump Bug Key", 0),
             CONFIGITEM("Misc>Misc>Movement>Edge Bug", false),
             CONFIGITEM("Misc>Misc>Movement>Edge Bug Key", 0),
+            CONFIGITEM("Misc>Misc>Movement>Edge Bug Time", 0),
             CONFIGITEM("Misc>Misc>Movement>Fast Duck", false),
             CONFIGITEM("Misc>Misc>Movement>Jump Shot", false),
             CONFIGITEM("Misc>Misc>Movement>Jump Shot Key", 0),

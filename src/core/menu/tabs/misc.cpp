@@ -143,6 +143,10 @@ void Menu::drawMiscTab() {
                     ImGui::SameLine();
                 }
                 ImGui::Checkbox("Edge Bug", &CONFIGBOOL("Misc>Misc>Movement>Edge Bug"));
+                if (CONFIGBOOL("Misc>Misc>Movement>Edge Bug")) {
+                    ImGui::TextIndent("Time");
+                    ImGui::SliderInt("##Edge Bug Time", &CONFIGINT("Misc>Misc>Movement>Edge Bug Time"), 0, 32);
+                }
                 ImGui::Checkbox("Fast Duck", &CONFIGBOOL("Misc>Misc>Movement>Fast Duck"));
                 if (CONFIGBOOL("Misc>Misc>Movement>Jump Shot")) {
                     static bool toggled = false;
