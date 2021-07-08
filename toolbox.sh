@@ -8,7 +8,7 @@ csgo_pid=$(pidof csgo_linux64)
 export USE_CLANG="false"
 
 if [[ $EUID -eq 0 ]]; then
-    echo "You cannot run this as root." 
+    echo "You cannot run this as root."
     exit 1
 fi
 
@@ -34,7 +34,7 @@ function unload {
 function load {
     echo "Loading cheat..."
     echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope > /dev/null
-    sudo cp build/libgamesneeze.so /usr/lib/$libname
+    sudo cp build/libx352.so /usr/lib/$libname
     gdbOut=$(
       $gdb -n -q -batch \
       -ex "set auto-load safe-path /usr/lib/" \
@@ -55,7 +55,7 @@ function load {
 function load_debug {
     echo "Loading cheat..."
     echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    sudo cp build/libgamesneeze.so /usr/lib/$libname
+    sudo cp build/libx352.so /usr/lib/$libname
     $gdb -n -q -batch \
         -ex "set auto-load safe-path /usr/lib:/usr/lib/" \
         -ex "attach $csgo_pid" \
@@ -120,7 +120,7 @@ case $keys in
     -h|--help)
         echo "
  help
-Toolbox script for gamesneeze the beste lincuck cheat 2021
+Toolbox script for x352 the beste lincuck cheat 2021
 =======================================================================
 | Argument             | Description                                  |
 | -------------------- | -------------------------------------------- |
