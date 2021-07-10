@@ -5,7 +5,7 @@
   <a><img src="https://img.shields.io/badge/OS-Linux-green.svg" alt="Linux"></a>
   <a><img src="https://img.shields.io/badge/Cheat-CS:GO-green.svg" alt="CS:GO cheat"></a>
   <a><img src="https://img.shields.io/badge/State-Unfinished-red.svg" alt="Unfinished"></a>
-  <a><img src="https://img.shields.io/badge/Detection-Undetected-green.svg" alt="Detection: Unknown"></a>
+  <a><img src="https://img.shields.io/badge/Detection-VAC who?-green.svg" alt="Detection: Unknown"></a>
 </p>
 
 An open source cheat for Counter-Strike: Global Offensive on Linux.
