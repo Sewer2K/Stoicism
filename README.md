@@ -77,7 +77,3 @@ chmod +x toolbox.sh
 All args are executed in the order they are written in, for example, "-u -b -l" would unload the cheat, build it, and then load it back into csgo.
 
 
-## Found a bug or want to contribute to the project?
-
- - [Create a pull request](https://github.com/veasman/x352/compare) ([tutorial](https://github.com/yangsu/pull-request-tutorial))
- - [Report a bug](https://github.com/veasman/x352/issues/new)
